@@ -33,9 +33,27 @@ sudo apt-get update && sudo apt-get upgrade -y
 # Instalar git, zsh y build-essential
 sudo apt-get install git zsh build-essential -y
 
-# Cambiar la shell predeterminada a zsh
-if ! chsh -s "$(command -v zsh)"; then
-    chsh -s "$(which zsh)"
+# Verificar qué shell se está utilizando
+current_shell=$(basename "$SHELL")
+
+# Mostrar la shell actual al usuario
+echo "Estás usando $current_shell."
+
+# Verificar si Zsh está instalado
+if [[ "$current_shell" != "zsh" ]]; then
+    if [[ -x "$(command -v zsh)" ]]; then
+        # Cambiar la shell predeterminada a Zsh
+        if ! chsh -s "$(command -v zsh)"; then
+            echo "Hubo un error al cambiar la shell predeterminada a Zsh."
+        else
+            echo "Se ha cambiado la shell predeterminada a Zsh."
+            echo "Por favor, cierra la sesión y vuelve a iniciarla para que los cambios surtan efecto."
+        fi
+    else
+        echo "Zsh no está instalado. Por favor, instálalo antes de cambiar la shell predeterminada."
+    fi
+else
+    echo "Ya estás utilizando Zsh como shell predeterminada."
 fi
 
 # Instalar kitty
