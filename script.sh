@@ -1,5 +1,32 @@
 #!/bin/bash
 
+# Función para mostrar una barra de progreso
+function show_progress() {
+    local duration=$1
+    local sleep_time=0.2
+    local elapsed_time=0
+    local progress_char="█"
+    local progress_string=""
+    local max_chars=$(tput cols)
+    local max_ticks=$((duration / sleep_time))
+
+    for ((i = 0; i <= max_chars; i++)); do
+        progress_string+=" "
+    done
+
+    while ((elapsed_time <= duration)); do
+        elapsed_ticks=$((elapsed_time / sleep_time))
+        for ((i = 0; i <= elapsed_ticks; i++)); do
+            progress_string="${progress_string:0:i}$progress_char${progress_string:i+1}"
+        done
+        printf "\r[%s] %s%%" "$progress_string" "$((elapsed_ticks * 100 / max_ticks))"
+        sleep "$sleep_time"
+        elapsed_time=$((elapsed_time + sleep_time))
+    done
+
+    printf "\n"
+}
+
 # Actualizar el sistema
 sudo apt-get update && sudo apt-get upgrade -y
 
@@ -12,7 +39,16 @@ if ! chsh -s "$(command -v zsh)"; then
 fi
 
 # Instalar kitty
-curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
+(curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n) &
+
+# Mostrar animación con parrot.live
+(curl -s parrot.live) &
+
+# Esperar a que las tareas en segundo plano finalicen
+wait
+
+# Limpiar la pantalla
+clear
 
 # Agregar kitty al PATH
 sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin/
@@ -38,16 +74,32 @@ gio set ~/Desktop/kitty.desktop metadata::trusted true
 chmod a+x ~/Desktop/kitty.desktop
 
 # Instalar Oh My Zsh
-sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)" &
+pid=$!
+
+# Mostrar barra de progreso para la instalación de Oh My Zsh
+show_progress 5
+
+# Esperar a que la instalación de Oh My Zsh finalice
+wait "$pid"
 
 # Clonar los repositorios de plugins para Zsh
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
 # Instalar fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
+(git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install) &
 
-# Preguntar al usuario si desea instalar neovim o Visual Studio Code
+# Mostrar animación con parrot.live
+(curl -s parrot.live) &
+
+# Esperar a que las tareas en segundo plano finalicen
+wait
+
+# Limpiar la pantalla
+clear
+
+# Preguntar al usuario si desea instalar Neovim (nvim) o Visual Studio Code (vscode)
 read -p "¿Desea instalar Neovim (nvim) o Visual Studio Code (vscode)? [nvim/vscode]: " option
 
 if [[ "$option" == "vscode" ]]; then
