@@ -6,7 +6,7 @@ el script esta pensado para servir en sistemas linux en base a ubuntu o debian *
 
 ## Funciones
 
-- *Actualiza el sistema
+- *Actualiza el sistema*
 - *Instala Git, ZSH por APT*
 - *Descarga la consola Kitty* (de momento es obligatorio pero deberia hacerlo opcinal)
 - *Instala Oh My ZSH*
