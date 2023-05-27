@@ -1,32 +1,5 @@
 #!/bin/bash
 
-# Función para mostrar una barra de progreso
-function show_progress() {
-    local duration=$1
-    local sleep_time=0.2
-    local elapsed_time=0
-    local progress_char="█"
-    local progress_string=""
-    local max_chars=$(tput cols)
-    local max_ticks=$((duration / sleep_time))
-
-    for ((i = 0; i <= max_chars; i++)); do
-        progress_string+=" "
-    done
-
-    while ((elapsed_time <= duration)); do
-        elapsed_ticks=$((elapsed_time / sleep_time))
-        for ((i = 0; i <= elapsed_ticks; i++)); do
-            progress_string="${progress_string:0:i}$progress_char${progress_string:i+1}"
-        done
-        printf "\r[%s] %s%%" "$progress_string" "$((elapsed_ticks * 100 / max_ticks))"
-        sleep "$sleep_time"
-        elapsed_time=$((elapsed_time + sleep_time))
-    done
-
-    printf "\n"
-}
-
 # Actualizar el sistema
 sudo apt-get update && sudo apt-get upgrade -y
 
@@ -59,15 +32,6 @@ fi
 # Instalar kitty
 (curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n) &
 
-# Mostrar animación con parrot.live
-(curl -s parrot.live > /dev/null) &
-
-# Esperar a que las tareas en segundo plano finalicen
-wait
-
-# Limpiar la pantalla
-clear
-
 # Agregar kitty al PATH
 sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin/
 
@@ -93,12 +57,6 @@ chmod a+x ~/Desktop/kitty.desktop
 # Instalar Oh My Zsh
 sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)" &
 
-# Mostrar barra de progreso para la instalación de Oh My Zsh
-show_progress 5
-
-# Esperar a que la instalación de Oh My Zsh finalice
-wait
-
 # Clonar los repositorios de plugins para Zsh
 plugins_dir=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$plugins_dir/zsh-syntax-highlighting"
@@ -107,13 +65,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions "$plugins_dir/zsh-aut
 # Instalar fzf
 (git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install) &
 
-# Mostrar animación con parrot.live
-(curl -s parrot.live > /dev/null) &
-
-# Esperar a que las tareas en segundo plano finalicen
-wait
-
-# Limpiar la pantalla
+# Limpiar pantalla para preguntar si nvim o vscode
 clear
 
 # Preguntar al usuario si desea instalar Neovim (nvim) o Visual Studio Code (vscode)
@@ -128,8 +80,7 @@ if [[ "$option" == "vscode" ]]; then
 
     # Instalar las extensiones para Visual Studio Code
     code --install-extension dbaeumer.vscode-eslint
-    code --install-extension formulahendry.auto-close-tag
-    code --install-extension formulahendry.auto-rename-tag
+    code --install-extension formulahendry.aut    code --install-extension formulahendry.auto-rename-tag
     code --install-extension MS-CEINTL.vscode-language-pack-es
     code --install-extension ritwickdey.LiveServer
     code --install-extension esbenp.prettier-vscode
