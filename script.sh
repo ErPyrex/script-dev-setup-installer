@@ -3,11 +3,16 @@
 # Actualizar el sistema
 sudo apt-get update && sudo apt-get upgrade -y
 
-# Instalar git y zsh
-sudo apt-get install git zsh -y
+# Instalar git, zsh y build-essential
+sudo apt-get install git zsh build-essential -y
+
+# Cambiar la shell predeterminada a zsh
+if ! chsh -s "$(command -v zsh)"; then
+    chsh -s "$(which zsh)"
+fi
 
 # Instalar kitty
-curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sudo sh /dev/stdin launch=n
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
 
 # Agregar kitty al PATH
 sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin/
@@ -35,8 +40,40 @@ chmod a+x ~/Desktop/kitty.desktop
 # Instalar Oh My Zsh
 sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 
-# Descargar el archivo vscode.deb
-wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O /tmp/vscode.deb
+# Clonar los repositorios de plugins para Zsh
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
-# Instalar el paquete usando apt
-sudo apt install /tmp/vscode.deb -y
+# Instalar fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
+
+# Preguntar al usuario si desea instalar neovim o Visual Studio Code
+read -p "¿Desea instalar Neovim (nvim) o Visual Studio Code (vscode)? [nvim/vscode]: " option
+
+if [[ "$option" == "vscode" ]]; then
+    # Descargar el archivo vscode.deb
+    wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O /tmp/vscode.deb
+
+    # Instalar el paquete usando apt
+    sudo apt install /tmp/vscode.deb -y
+
+    # Instalar las extensiones para Visual Studio Code
+    code --install-extension dbaeumer.vscode-eslint
+    code --install-extension formulahendry.auto-close-tag
+    code --install-extension formulahendry.auto-rename-tag
+    code --install-extension MS-CEINTL.vscode-language-pack-es
+    code --install-extension ritwickdey.LiveServer
+    code --install-extension esbenp.prettier-vscode
+
+elif [[ "$option" == "nvim" ]]; then
+    # Descargar el archivo nvim.appimage
+    wget "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage" -O /tmp/nvim
+
+    # Dar permisos de ejecución y mover nvim a /usr/bin
+    chmod +x /tmp/nvim
+    sudo chown root:root /tmp/nvim
+    sudo mv /tmp/nvim /usr/bin/
+
+    # Crear directorio de configuración para nvim
+    mkdir -p ~/.config/nvim
+fi

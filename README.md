@@ -11,6 +11,9 @@ el script esta pensado para servir en sistemas linux en base a ubuntu o debian *
 - **Descarga la consola Kitty** (de momento es obligatorio pero deberia hacerlo opcinal)
 - **Instala Oh My ZSH**
 - **Descarga e Instala VSCode**
+- __Instala VSCode o Neovim a eleccion__
+- __Instala fzf__
+- __Instala mas no configura plugins para zsh__
 
 ## Instrucciones
 
