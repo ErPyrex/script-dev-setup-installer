@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #!/bin/bash
 
 # 显示进度条的函数
@@ -52,12 +53,29 @@ current_shell=$(basename "$SHELL")
 
 # 向用户显示当前的外壳
 echo "You are using $current_shell."
+=======
+# Actualizar el sistema
+sudo apt-get update && sudo apt-get upgrade -y
+
+# Instalar git y build-essential
+sudo apt-get install git build-essential -y
+
+# Verificar qué shell se está utilizando
+current_shell=$(basename "$SHELL") # Variable que guarda que shell se usa
+current_shell_path=$(echo $SHELL)
+
+# Mostrar la shell actual al usuario
+echo "Estás usando $current_shell en la ruta $current_shell_path."
+sleep 2 #Espera un momento para que puedan leer el mensaje
+clear # Limpia  la pantalla
+>>>>>>> Stashed changes
 
 # 检查Zsh是否已经安装
 if [[ "$current_shell" != "zsh" ]]; then
     if command_exists zsh; then
         # 将默认的shell改为Zsh
         if ! chsh -s "$(command -v zsh)"; then
+<<<<<<< Updated upstream
             echo "There was an error changing the default shell to Zsh."
         else
             echo "The default shell has been changed to Zsh."
@@ -65,6 +83,21 @@ if [[ "$current_shell" != "zsh" ]]; then
         fi
     else
         echo "Zsh is not installed. Please install it before changing the default shell."
+=======
+            echo "Hubo un error al cambiar la shell predeterminada a Zsh."
+            sleep 5
+        else
+            echo "Se ha cambiado la shell predeterminada a Zsh."
+            sleep 2
+            echo "Por favor, cierra la sesión y vuelve a iniciarla para que los cambios surtan efecto."
+            sleep 3
+        fi
+    else
+        echo "Zsh no está instalado. Por favor, espera mientas se instala luego se procedera a cambiar la shell predeterminada."
+        sleep 5
+        echo "Instalando ZSH"
+        sudo apt-get install zsh -y
+>>>>>>> Stashed changes
     fi
 else
     echo "You are already using Zsh as your default shell."
