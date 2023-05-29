@@ -163,7 +163,8 @@ if [[ "$option" == "vscode" ]]; then
 
     # 安装Visual Studio Code的扩展 / Installing Visual Studio Code extensions
     code --install-extension dbaeumer.vscode-eslint
-    code --install-extension formulahendry.aut    code --install-extension formulahendry.auto-rename-tag
+    code --install-extension formulahendry.aut   
+    code --install-extension formulahendry.auto-rename-tag
     code --install-extension MS-CEINTL.vscode-language-pack-es
     code --install-extension ritwickdey.LiveServer
     code --install-extension esbenp.prettier-vscode
