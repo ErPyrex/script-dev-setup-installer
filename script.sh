@@ -63,8 +63,30 @@ install_vscode_extensions (){
   clear
 }
 
-# Limpia pantalla
-clear
+install_kitty (){
+  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
+  clear
+  sleep 1s
+  sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin/
+  usleep 500000
+  cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+  usleep 500000
+  cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/
+  usleep 500000
+  sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
+  usleep 500000
+  sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
+  usleep 500000
+  cp ~/.local/kitty.app/share/applications/kitty.desktop ~/Desktop
+  usleep 500000
+  sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/Desktop/kitty*.desktop
+  usleep 500000
+  sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" ~/Desktop/kitty*.desktop
+  usleep 500000
+  gio set ~/Desktop/kitty*.desktop metadata::trusted true
+  usleep 500000
+  chmod a+x ~/Desktop/kitty*.desktop
+}
 
 #Bienvenida
 welcome (){
@@ -85,12 +107,26 @@ code_editor (){
   if [[ $dev_env == *nvim* ]]
     then
       install_nvim
+      continue
     elif [[ $dev_env == *vscode* ]]
       then
         install_vscode
         install_vscode_extensions
+        continue
   fi
 }
 
+clear
 welcome
+read -p "¿Quieres instalar kitty console? [y / n]" kitty
+if [[ $kitty == *y* ]]
+  then
+    install_kitty
+    continue
+  elif [[ $kitty == *n* ]]
+    then
+      continue
+  else
+    continue
+  fi
 code_editor
