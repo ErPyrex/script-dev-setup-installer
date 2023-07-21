@@ -113,6 +113,8 @@ code_editor (){
         install_vscode
         install_vscode_extensions
         continue
+    else
+      continue
   fi
 }
 
