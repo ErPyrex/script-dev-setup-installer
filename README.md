@@ -8,15 +8,14 @@ el script esta pensado para servir en sistemas linux en base a ubuntu o debian *
 
 - **Actualiza el sistema**
 - **Instala Git, ZSH por APT**
-- **Descarga la consola Kitty** (de momento es obligatorio pero deberia hacerlo opcinal)
+- **Descarga la consola Kitty** (de momento es obligatorio pero deberia hacerlo opcional)
 - **Instala Oh My ZSH**
-- **Descarga e Instala VSCode**
-- __Instala VSCode o Neovim a eleccion__
-- __Instala fzf__
-- __Instala mas no configura plugins para zsh__
+- **Instala VSCode o Neovim a eleccion**
+- **Instala fzf**
+- **Instala mas no configura plugins para zsh**
 
 ## Instrucciones
 
 - **Descargar el script**
-- **Darle permisos de ejecucion:** chmod +x script.sh
-- **Ejecutar:** ./script.sh
+- **Darle permisos de ejecucion:** *chmod +x script.sh*
+- **Ejecutar:** *./script.sh*
