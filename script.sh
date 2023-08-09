@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Para todos los futuros programadores que se pongan a editar este script.
+# SI vas a agregar algo o mejorar algo por favor haz un comentario.
+# PREFERIBLEMENTE ponlo en ingles, puedes poner tu idioma tambien pero deja una version en ingles.
+# SI NO LO HACES IRE A POR TI A TU CASA Y TENDREMOS UNA LINDA CHARLA CON CAFE Y PAN EN LAS QUE TE HARE REFLEXIONAR SOBRE TU MISERA VIDA DE PEREZA.
+# con mucho cariño @Pyrex64 (Creador del Script)
+
+# EN version 
+# For all future programmers who are going to edit this script.
+# If you are going to add something or improve something please make a comment.
+# PREFERABLY put it in English, you can put your language too but leave an English version.
+# IF YOU DON'T I'LL COME TO YOUR HOUSE AND WE'LL HAVE A NICE CHAT WITH COFFEE AND BREAD AND I'LL MAKE YOU THINK ABOUT YOUR MISERABLE LAZY LIFE.
+# with much love @Pyrex64 (Script Creator)
+
 # Funciones Principales
 
 update_system (){
